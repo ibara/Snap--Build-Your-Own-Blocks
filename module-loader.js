@@ -159,7 +159,12 @@ ModuleLoader.prototype.open = function(zip, options) {
 
     var code = zip.file("code.js");
     if(code != null) {
-      eval(code.asText());
+      // Rather than eval, append script element; it works better for libraries
+      //eval(code.asText());
+      var myScript = document.createElement("script");
+      myScript.setAttribute("type","text/javascript");
+      myScript.innerHTML += code.asText();
+      document.body.appendChild(myScript);
     }
 
   // Iterate through blocks and load them all
